@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>NYC Planning Metro Mobility Trends</title>
+  <meta content="NYC Planning Metro Mobility Trends" name="description">
+  <meta content="NYC Planning Regional Division" name="author">
+
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://migration.planning.nyc.gov/css/labs-foundation.css">
+  <link rel="stylesheet" href="https://migration.planning.nyc.gov/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <!-- END TRACKJS -->
+</head>
+<body>
+
+  <div id="maps" class="site-main">
+    <div class="grid-container">
+      <div class = "cell large-9 text-small">
+        <div class="char-select" role="group" aria-label="...">
+          <button 
+            v-for="map in maps" 
+            :key="map.name" 
+            class="button"
+            v-on:click = "selected = map.name"
+          >
+            {{ map.friendly_name }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Setting the map loop-->
+    <div class="grid-container">
+      <div   
+        v-for="map in maps" 
+        v-if="selected == map.name"
+        :key="map.name"
+      >
+      <!-- Referencing the "maps" argument below, changing text and padding based on Planning Labs CSS classes-->
+        <h3 class="header-small">{{map.title}} </h3>
+          <div class = "grid-x grid-padding-x">
+            <p class = "cell large-10 text-small">{{map.description}}</p>
+          </div>
+            <iframe 
+              :src="map.url"
+              height="800px" width="100%"
+              style="border:none;"
+              title="map.name"
+            ></iframe>
+            <div class = "grid-x grid-padding-x">
+              <p class = "cell large-10 text-small">{{map.description1}}</p>
+            </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+<!--    STILL NEED GUIDANCE ON: Fixing the Dynamic HTML for only one tab.-->
+  <div class="site-footer">
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell shrink">
+
+          <p><a href="http://www.nyc.gov/region"><img class="logo" style="width:80px;" src="https://raw.githubusercontent.com/NYCPlanning/logo/master/dcp_logo_772.png" alt="DCP"></a></p>
+
+        </div>
+        <div class="cell auto text-small ">
+
+          <p class="dark-gray" style="margin-bottom:0.3rem;">A project by NYC Department of City Planning's Regional Planning Division</p>
+          <p class="dark-gray" style="margin-bottom:0.3rem;">Check out 2019's <a href="https://www1.nyc.gov/assets/planning/download/pdf/planning-level/housing-economy/nyc-ins-and-out-of-commuting.pdf">The Ins and Outs of NYC Commuting</a></p>
+
+          <a href="https://github.com/NYCPlanning/rp-covid-migration/issues/" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> Report a bug</a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="//d3js.org/d3.v4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/1.3.4/chroma.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://use.fontawesome.com/46fa1fbe2f.js"></script>
+  <script>
+    var maps = new Vue({
+      el: "#maps",
+      data: {
+        selected: 'subplace_returns',
+        maps: [
+          {
+            name: 'subplace_returns',
+            friendly_name: 'Region ➜ NYC',
+            title:'Daily Trips to NYC from the Surrounding NYC Metro',
+            description: 'Explore daily mobility patterns on the map below. It shows the total daily trips taken from villages, towns, and cities in the surrounding NYC metropolitan region to the five boroughs of NYC from January 1, 2020 through the early fall. The circles are located at the trip origin, or where people travelled to NYC from. The colors represent the NYC borough destination of each trip, and the size represents the number of trips from that village, town, or city to a NYC borough. You can play through the year using the timeline below the map window, or select a specific day. There is a clear decline in travel starting in March. While trips have increased through the summer, overall travel to NYC from the region remains down.',
+            description1: 'This map was built using anonymous geolocation data prepared by SafeGraph. The data are a sample of resident mobility, and do not capture all resident mobility. It is intended for illustrative purposes only.',
+            url: 'https://recovery-data-partnership.nyc3.digitaloceanspaces.com/subplace_to_nyc.html'
+          },
+          {
+            name: 'subplace_nyc',
+            friendly_name: 'NYC ➜ Region',
+            title: 'Daily Trips from NYC to the Surrounding NYC Metro',
+            description: 'Explore daily mobility patterns on the map below. It shows the total daily trips taken from NYC boroughs to villages, towns, and cities in the surrounding NYC metropolitan region from January 1, 2020 through the early fall. The circles are located at the trip destination, or where people travelled from NYC to in the suburbs. The colors represent the NYC borough origin of each trip, or the residence of the travelers, and the size represents the number of daily trips to that village, town, or city from a NYC borough. You can play through the year using the timeline below the map window, or select a specific day. There is a clear decline in travel starting in March. While trips have increased through the summer, overall travel to the region from NYC remains down.',
+            description1: 'This map was built using anonymous geolocation data prepared by SafeGraph. The data are a sample of resident mobility, and do not capture all resident mobility. It is intended for illustrative purposes only.',
+            url: 'https://recovery-data-partnership.nyc3.digitaloceanspaces.com/nyc_to_subplace.html'
+          }
+        ]
+      }
+    })
+  </script>
+</body>
+</html>
